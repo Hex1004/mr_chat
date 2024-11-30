@@ -1,0 +1,528 @@
+body {
+    background: #000;
+    color: white;
+}
+a{
+    text-decoration: none;
+    color: white;
+    font-family: "Lexend", sans-serif;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    padding: 10px 20px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    position: fixed; /* Fix it to the left side of the screen */
+    top: 20px; /* Adjust vertical positioning */
+    left: 20px; /* Position on the left side */
+    z-index: 1100; /* Ensure it stays above other elements */
+}
+label{
+    font-family: "Lexend", sans-serif;
+}
+
+.menu-items {
+    display: flex;
+    flex-direction: row; /* Default layout */
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.menu-items.active {
+    transform: translateX(0); /* Slide into view */
+}
+
+/* Menu styles for larger screens */
+.menu-items {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 70%;
+    background-color: #000;
+    flex-direction: column; /* Stack items vertically */
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 20px;
+    transform: translateX(-100%); /* Hidden off-screen by default */
+}
+
+.menu-items a {
+    margin: 15px 0; /* Add spacing between items */
+    font-size: 18px;
+}
+
+/* Close button inside menu */
+.menu-close {
+    position: absolute;
+    top: 10px;
+    right: 10px; /* Position to the top-right of the menu */
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+section {
+    padding: 80px 15px; /* Adjusted padding for smaller screens */
+    height: auto; /* Auto height for better adaptability */
+}
+
+#home {
+    font-family: "Lexend", sans-serif;
+    background-image: url("Untitled design(4).png");
+    margin-top: -10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    background-color: #000;
+    font-size: 24px; /* Adjusted font size */
+    position: relative;
+    height: auto; /* Auto height for better responsiveness */
+    display: flex;
+    flex-direction: column; /* Stacks content vertically */
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Padding for spacing */
+}
+
+#home h1 {
+    font-size: 50px; /* Adjusted font size for smaller screens */
+}
+
+#home h2 {
+    font-size: 20px; /* Adjusted font size */
+    margin-bottom: 50px; /* Reduced margin */
+}
+
+#home button {
+    background: linear-gradient(150deg, #ff0000, black);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 25px; /* Maintained original style */
+    width: 300px;
+    height: 50px;
+    text-decoration: none;
+    margin-top: 20px;
+}
+
+#home button:hover {
+    color: white;
+}
+
+.contact-form {
+    font-family: "Exo 2", sans-serif;
+    width: 90%; /* Full width on smaller screens */
+    max-width: 600px; /* Limits the width on larger screens */
+    margin: 40px auto; /* Centers the form vertically and horizontally */
+    padding: 20px; /* Adds spacing inside the form */
+    background: rgb(0, 0, 0); /* Dark background */
+    color: white; /* White text */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Softer shadow with white tone */
+    text-align: center; /* Centers text in the form */
+    border: none;
+}
+
+.contact-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px; /* Ensures readability */
+    color: white; /* White text for the header */
+    text-align: center;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%; /* Full width input fields */
+    padding: 15px; /* Comfortable padding */
+    margin-bottom: 15px; /* Space between fields */
+    border: 1px solid #ddd; /* Subtle border for inputs */
+    border-radius: 4px;
+    background: #111; /* Darker background for inputs */
+    color: white; /* White text inside inputs */
+    font-size: 16px; /* Adjusted for readability */
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+    color: #888; /* Subtle placeholder color */
+}
+
+.contact-form textarea {
+    resize: vertical; /* Allows vertical resizing */
+    height: 120px; /* Default height */
+}
+
+.contact-form button {
+    background: linear-gradient(150deg, #ff0000, black);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    font-size: 20px; /* Slightly smaller for responsiveness */
+    width: 100%; /* Full width on smaller screens */
+    max-width: 300px; /* Limits button size on larger screens */
+    margin-top: 10px;
+}
+
+.contact-form button:hover {
+    background: linear-gradient(150deg, #ff3333, #111); /* Brightened hover effect */
+    color: white;
+}
+
+#about-us, #our-mission {
+    width: 90%; /* Adjusted for smaller screens */
+    max-width: 900px;
+    margin: 20px auto; /* Centered with reduced spacing */
+
+}
+
+#about-us p, #our-mission p {
+    font-size: 18px; /* Adjusted font size */
+    width: auto;
+    height: auto;
+    margin: 0 auto; /* Centered text */
+    padding: 10px;
+    font-family: "Rubik";
+}
+
+.textares{
+    font-family: "Lexend", sans-serif;
+}
+.rounded-image, .rounded-image_2 {
+    width: 100%; /* Full width for smaller screens */
+    max-width: 900px;
+    height: auto; /* Maintains aspect ratio */
+    margin: 20px auto;
+    margin-top: 10px;
+}
+
+.plans-container {
+    margin: 20px auto; /* Center the container */
+    width: 100%; /* Full width for responsiveness */
+    text-align: center; /* Center-align all inner content */
+    padding: 0 15px; /* Add side padding for better spacing on small screens */
+}
+
+.plan {
+    font-family: "Exo 2", sans-serif;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto; /* Center the plan boxes */
+    background-color: #000000;
+    color: white;
+    display: block; /* Ensure each plan takes full width when necessary */
+    width: 90%; /* Adjusted for smaller screens */
+    max-width: 400px; /* Limit the width for better layout on large screens */
+    text-align: center; /* Center-align content inside each plan box */
+}
+
+.plan h3 {
+    margin-top: 0;
+    font-size: 30px; /* Adjusted font size for headings */
+}
+
+.price {
+    font-size: 24px;
+    color: #d10101;
+    font-weight: bold;
+}
+
+.plan ul {
+    list-style-type: none; /* Remove default list styling */
+    padding: 0;
+    margin: 0;
+}
+
+.plan li {
+    margin: 10px 0;
+}
+
+.plan button {
+    background: linear-gradient(150deg, #ff0000, black);
+    border: none;
+    border-radius: 30px;
+    color: white;
+    font-size: 20px; /* Adjusted for responsiveness */
+    width: 90%; /* Full width on mobile */
+    max-width: 300px; /* Set max width for better layout */
+    height: 50px;
+    margin: 20px auto; /* Center the button */
+    display: block; /* Ensure proper centering */
+
+}
+
+.plan a {
+    text-decoration: none;
+    color: white;
+}
+
+@media screen and (max-width: 768px) {
+
+    body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    p{
+        text-align: center;
+    }
+
+
+
+
+    nav {
+        flex-direction: column; /* Stack links vertically */
+        align-items: center; /* Center the menu links horizontally */
+        text-align: center;
+        font-family: "Lexend", sans-serif;
+    }
+
+    nav a {
+        font-size: 18px; /* Smaller font size */
+    }
+
+    .menu-toggle {
+        display: block; /* Show toggle button on smaller screens */
+    }
+    .menu-close {
+        display: block; /* Show close button */
+    }
+    .menu-items {
+        align-items: center; /* Center menu links */
+    }
+    .menu-items {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 70%;
+        background-color: #000;
+        flex-direction: column; /* Stack items vertically */
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 20px;
+        transform: translateX(-100%); /* Hidden off-screen by default */
+    }
+
+    .menu-items.active {
+        transform: translateX(0); /* Slide into view */
+    }
+
+    .menu-items a {
+        margin: 15px 0; /* Add spacing between items */
+        font-size: 18px; /* Adjust font size for smaller screens */
+    }
+
+    .menu-close {
+        display: block; /* Show close button */
+    }
+
+    .menu-close {
+        position: absolute; /* Fix position relative to the menu */
+        top: 10px;
+        right: 10px; /* Position to the top-right of the menu */
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    #home {
+        width: 650px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center; /* Center vertically */
+        align-items: center; /* Center horizontally */
+        text-align: center; /* Ensure text is centered */
+    }
+    #home h1, #home h2, #home button {
+        margin: 0 auto; /* Center align individual elements */
+    }
+
+    #home h1 {
+        font-size: 40px; /* Adjusted for smaller screens */
+    }
+    .plans-container {
+        padding: 0 10px; /* Extra side padding for small screens */
+    }
+
+    .plan {
+        width: 100%; /* Full width for smaller screens */
+        margin: 20px auto; /* Center the plan box */
+    }
+
+    .plan h3 {
+        font-size: 24px; /* Slightly smaller heading size */
+    }
+
+    .plan button {
+        font-size: 18px; /* Smaller button font size */
+        width: 100%; /* Full width button for mobile */
+        max-width: none; /* Remove max width restriction */
+    }
+    #home a {
+        text-decoration: none;
+        color: white;
+    }
+
+    #home h2 {
+        font-size: 16px;
+        margin-top: 10px;
+
+    }
+
+    #home button {
+        margin-top: 20px;/* Adjusted for smaller screens */
+    }
+
+    .contact-form h2 {
+        font-size: 18px; /* Adjusted font size */
+    }
+
+    #about-us p,
+    #our-mission p {
+        font-size: 16px;
+        margin-top: 20px; /* Adjusted font size */
+    }
+
+    .plans-container {
+        width: 100%; /* Ensure the container fits mobile screens */
+        padding: 0 15px; /* Add side padding for better spacing */
+    }
+
+    .plan {
+        width: 100%; /* Make plan cards fully responsive */
+        margin: 20px auto; /* Center on mobile screens */
+    }
+
+    .plan h2 {
+        font-size: 20px; /* Slightly reduce font size for mobile */
+        text-align: center; /* Always center headings */
+        margin: 10px auto; /* Adjust vertical margins for consistency */
+    }
+
+
+    .contact-form {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .contact-form h2 {
+        font-size: 20px; /* Slightly smaller font */
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .contact-form button {
+        font-size: 18px; /* Smaller font size */
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+    body{
+        color: white;
+    }
+    nav {
+        display: flex; /* Flexbox layout */
+        flex-direction: row; /* Align items in one row */
+        justify-content: center; /* Center the links horizontally */
+        align-items: center; /* Align items vertically */
+        flex-wrap: nowrap; /* Prevent wrapping to the next line */
+        margin-top: -10px;
+
+    }
+
+    nav a {
+        font-size: 18px; /* Smaller font size */
+        margin: 0 10px; /* Add spacing between links */
+    }
+
+    #home h1 {
+        font-size: 40px; /* Adjusted for smaller screens */
+    }
+
+    #home a{
+        text-decoration: none;
+        color: white;
+    }
+
+    #home h2 {
+        font-size: 16px; /* Adjusted for smaller screens */
+    }
+
+    .contact-form h2 {
+        font-size: 18px; /* Adjusted font size */
+    }
+
+    #about-us p, #our-mission p {
+        font-size: 16px; /* Adjusted font size */
+    }
+
+    .plan {
+        width: 100%; /* Full width for smaller screens */
+        max-width: none;
+        margin-left: 10px;/* No max width on mobile */
+    }
+    .plan h3{
+        margin-right: 50px;
+    }
+    .plan li{
+        margin-right: 50px;
+    }
+
+    .plan h2{
+        text-align: center;
+        margin-left: 10px;
+    }
+
+    .plans-container button {
+        font-size: 25px;
+        margin-right: 50px;
+        text-align: center; /* Slightly smaller for mobile */
+    }
+    .contact-form {
+        padding: 15px; /* Adjust padding for smaller screens */
+    }
+
+    .contact-form h2 {
+        font-size: 20px; /* Slightly smaller font */
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+        font-size: 14px; /* Adjust font size */
+    }
+
+    .contact-form button {
+        font-size: 18px; /* Smaller font size */
+    }
+}
+

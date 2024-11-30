@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../static/app_img/logo1.png">
+    <title>Mr.Chat</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #d3d3d3;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 400px;
+            background: linear-gradient(150deg, #d10101, #dd0000, #000000, #000000, #000000);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #000000;
+            color: #ffffff;
+            align-items: center; /* Center content inside sidebar */
+            position: relative;
+        }
+
+        /* Large Logo */
+        .sidebar .logo {
+            width: 100px; /* Large size for logo */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 10px;
+            margin-bottom: 30px; /* Space between logo and next content */
+        }
+
+        /* Sidebar - Add Contact Button */
+        .sidebar .bottom-section {
+            display: flex;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .sidebar .add-contact {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(150deg, #000000, #d10101, #dd0000, #000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            overflow: hidden; /* Ensure image does not overflow the button */
+            margin-right: 20px; /* Space between the button and profile image */
+        }
+
+        /* Smaller Image Inside Add Contact Button */
+        .sidebar .add-contact img {
+            width: 40%; /* Set the image to 40% of the button’s width */
+            height: 40%; /* Maintain aspect ratio */
+        }
+
+        /* Profile Picture */
+        .sidebar .profile-picture {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 2px solid #ffffff; /* Optional border */
+        }
+
+        /* Hover Effect */
+        .sidebar .add-contact:hover {
+            background-color: #000000;
+        }
+
+        /* Main Chat Area Styles */
+        .main {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            background-color: #000;
+            padding: 20px;
+        }
+
+        .main .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .main .header .icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .main .header .icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(150deg, #000000, #d10101, #dd0000, #000000);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d3d3d3;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .main .header .icon:hover {
+            background-color: #ff0000;
+        }
+
+        .input-section {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 20px;
+            background-color: #333;
+            margin-top: 10px;
+        }
+
+        .input-section input {
+            flex: 1;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #d3d3d3;
+            font-size: 16px;
+            padding: 10px;
+        }
+
+        .input-section button {
+            background: linear-gradient(150deg, #000000, #d10101, #dd0000, #000000);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-left: 10px;
+        }
+
+        .input-section button:hover {
+            background-color: #ff0000;
+        }
+
+        .copy {
+            color: white;
+            position: absolute;
+            bottom: 30px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 900px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <img src="../static/app_img/logo1.png" alt="Mr.Chat Logo" class="logo">
+        <div class="bottom-section">
+            <div class="add-contact"><img src="../static/app_img/add_user.png" alt=""></div>
+            <img src="user_profile.png" alt="" class="profile-picture">
+        </div>
+    </div> 
+
+    <!-- Main Chat Section -->
+    <div class="main">
+        <div class="header">
+            <div class="icons">
+                <div class="icon"><a href="voice_chat.html"><img src="../static/app_img/483947(1).png" alt=""></a></div>
+                <div class="icon"><a href="video_chat.html"><img src="../static/app_img/camera_on.png" alt=""></a></div>
+                <div class="icon"><a  href="users.html"><img src="../static/app_img/tree_dots.png" alt=""></a> </div>
+            </div>
+        </div>
+        <div class="input-section">
+            <input type="text" placeholder="Type your message...">
+            <button><img src="../static/app_img/send_message.png" alt=""></button>
+        </div>
+    </div>
+    <p class="copy">© 2024 Mr.Chat</p>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<form class="example" method="GET">
+    <input type="text" placeholder="ユーザー検索..." name="user_name">
+    <button type="submit">検索</button>
+</form>
+
+{% if all_search_results %}
+    {% for result in all_search_results %}
+        <div>
+            {{ result.username }}
+        </div>
+    {% endfor %}
+{% else %}
+    <p>No users found with that name.</p> <!-- Message to show when no results are found -->
+{% endif %}

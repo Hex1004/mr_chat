@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+      {% load static %}
+         <link rel="stylesheet" href="{% static 'app/settings.css' %}">
+         <link rel="icon" type="image/png" href="{% static 'images/logo1.png' %}"> <!
+</head>
+<body>
+    <h1>Customize Your Theme</h1>
+    <div class="settings-container">
+        <div class="gradient-picker">
+            <label>Left Panel Gradient:</label>
+            <div>
+                <input type="color" id="left-panel-color1" value="#d10101">
+                <input type="color" id="left-panel-color2" value="#dd0000">
+            </div>
+            <div class="preview" id="left-panel-preview"></div>
+        </div>
+        <div class="gradient-picker">
+            <label>Button Gradient:</label>
+            <div>
+                <input type="color" id="button-color1" value="#000000">
+                <input type="color" id="button-color2" value="#d10101">
+            </div>
+            <div class="preview" id="button-preview"></div>
+        </div>
+        <div class="gradient-picker">
+            <label>Chat Header Gradient:</label>
+            <div>
+                <input type="color" id="chat-header-color1" value="#d10101">
+                <input type="color" id="chat-header-color2" value="#dd0000">
+            </div>
+            <div class="preview" id="chat-header-preview"></div>
+        </div>
+        <div class="gradient-picker">
+            <label>Send Button Gradient:</label>
+            <div>
+                <input type="color" id="send-button-color1" value="#4caf50">
+                <input type="color" id="send-button-color2" value="#3b823c">
+            </div>
+            <div class="preview" id="send-button-preview"></div>
+        </div>
+        <button id="save-settings">Save Settings</button>
+    </div>
+
+       <script src="{% static 'javascript/settings.js' %}"></script>
+</body>
+</html>

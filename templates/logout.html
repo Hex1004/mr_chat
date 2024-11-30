@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout</title>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'app/logout.css' %}">
+    <link rel="icon" type="image/png" href="/static/app_img/logo1.png">
+    
+</head>
+
+<body>
+    <div class="logout-card">
+        <h2>You have successfully logged out</h2>
+
+        <p>Thank you for visiting! You have logged out of your account. You will be redirected to the login page shortly.</p>
+    </div>
+    
+    <p class="copy">© 2024 Mr.Chat</p> 
+    
+    <!-- Include the script file with src attribute -->
+    <script src="{% static 'javascript/logout.js' %}"></script>
+
+</body>
+</html>

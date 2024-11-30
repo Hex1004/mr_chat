@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Chat Log In</title>
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'images/logo1.png' %}">
+    <link rel="stylesheet" href="{% static 'home/login.css' %}">
+</head>
+<body>
+    <div class="login" id="loginbox">
+        <div class="login-container" id="loginid">
+            <h2>Log In</h2>
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %} <!-- CSRF protection for form submission -->
+                
+                <div>
+                    <label class="name" for="id_username">Username</label>
+                    <input type="text" name="username" id="id_username" placeholder="Enter your nickname..." required>
+                </div>
+
+                <div>
+                    <label class="name_2" for="id_password">Password</label>
+                    <input type="password" name="password" id="id_password" placeholder="Enter your password..." required>
+                </div>
+
+                <!-- Display errors if needed -->
+                {% if error %}
+                    <div class="errors">
+                        <p style="color: white;">{{ error }}</p>
+                    </div>
+                {% endif %}
+
+                <!-- Submit button to submit the form -->
+                <button type="submit" href="{% url 'chatroom_list'  %}" class="submit-button">Log In</button>
+            </form>
+
+            <!-- Register link -->
+            <a href="{% url 'register' %}" class="register-link">Don't have an account yet? Register</a>
+        </div>
+    </div>
+
+    <p class="copy">© 2024 Mr.Chat</p>
+</body>
+</html>

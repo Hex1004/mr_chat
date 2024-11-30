@@ -1,0 +1,8 @@
+<ul>
+    {% for invite in invites %}
+        <li>
+            {{ invite.sender.username }} wants to chat.
+            <a href="{% url 'accept_invite' invite.id %}">Accept</a>
+        </li>
+    {% endfor %}
+</ul>

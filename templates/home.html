@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Chat</title>
+      {% load static %}
+    <link rel="stylesheet" href="{% static 'home/style.css' %}"> <!-- Link to your CSS -->
+    <link rel="icon" type="image/png" href="{% static 'images/logo1.png' %}"> <!-- Link to favicon --> <!-- Link to favicon -->
+</head>
+
+<body>
+     <div class="welcome" id="welcomeBox">
+        <h1 class="welcometext">Welcome to Mr.Chat!</h1>
+        <div class="button-container" id="buttonContainer">
+            <form method="post">  <!-- Example login form -->
+                {% csrf_token %}
+                <button class="button">
+                    <a href="{% url 'login' %}">Log In</a>
+                </button>
+            </form>
+            <form method="post">  <!-- Example registration form -->
+                {% csrf_token %}
+                <button class="button">
+                    <a class="register" href="{% url 'register' %}">Register</a>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'javascript/home.js' %}" defer></script>
+    
+    
+
+    <p class="copy">© 2024 Mr.Chat</p>
+</body>
+</html>

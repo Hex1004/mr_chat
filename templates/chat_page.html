@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     {% load static %}
+    <link rel="stylesheet" href="{% static 'app/chat_page.css' %}">
+    <link rel="icon" type="image/png" href="/static/app_img/logo1.png">
+    <title>Mr.Chat</title>
+</head>
+<body>
+    <div class="left-panel">
+        <div class="header">
+            <img src="/static/app_img/logo1.png" alt="Mr.Chat Logo" class="logo">
+           <div class="notification-button" id="notification-button">
+</div>
+        </div>
+        <div class="message">
+            <p>No chats here :)</p>
+        </div>
+        <div class="button-container">
+            <button type="button" id="show-search-button" class="icon-button">
+                <img src="/static/app_img/add_user.png" alt="Add User">
+            </button>
+
+            <a href="/home/login/chatroom/profile/" class="icon-button">
+                <img src="/static/app_img/logo1.png" alt="User Profile">
+            </a>
+
+            <a href="{% url 'settings' %}" class="icon-button">
+    <img src="/static/app_img/settings.png" alt="Settings">
+</a>
+        </div>
+        <div id="search-container" class="search-container">
+             <input type="text" id="search-username" placeholder="Enter username..." required>
+             <button id="submit-search">Search</button>
+         </div>
+       <div id="results" class="results"></div>
+
+    </div>
+  <div id="chat-interface" class="chat-interface">
+    <div class="chat-header">
+        <h2 id="chat-username">User Name</h2>
+        <button id="close-chat-button">
+                <img src="/static/app_img/close.png" alt="Close">
+             <button class="delete" id="delete-chat-button"> <img src="/static/app_img/delete.png"></button>
+          <button id="chatSavingButton"><img src="/static/app_img/on_off.png"></button>
+        </button>
+    </div>
+
+    <!-- Messages container -->
+    <div id="messages-container" class="messages-container">
+        <div id="messages" class="messages">
+            <!-- Dynamic messages will appear here -->
+        </div>
+    </div>
+
+    <!-- Input section -->
+ <div class="input-section">
+    <input type="text" placeholder="Type your message..." class="message-input">
+    <button class="send-button"><img src="/static/app_img/send_message.png" alt="Send"></button>
+</div>
+
+
+
+<script src="{% static 'javascript/chatroom.js' %}" defer></script>
+      
+
+</div>
+</body>
+</html>

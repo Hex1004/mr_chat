@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr.Chat Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'images/logo1.png' %}">
+    <link rel="stylesheet" href="{% static 'home/register.css' %}">
+</head>
+<body>
+    <div class="register" id="registerbox">
+        <div class="register-container" id="registerid">
+            <h2>Register</h2>
+
+            <!-- Django Form -->
+            <form method="POST">
+                {% csrf_token %} <!-- CSRF protection for form submission -->
+                {{ form.non_field_errors }} <!-- Display any non-field errors -->
+
+                <div>
+                    <label  for="id_username">Username</label>
+                    {{ form.username }} <!-- Auto-renders with pre-applied attributes -->
+                </div>
+
+                <div>
+                    <label for="id_email">Email</label>
+                    {{ form.email }}
+                </div>
+
+                <div>
+                    <label for="id_password1">Password</label>
+                    {{ form.password1 }}
+                </div>
+
+                <div>
+                    <label for="id_password2">Confirm Password</label>
+                    {{ form.password2 }}
+                </div>
+
+                <!-- Display form field-specific errors -->
+                {% for field in form %}
+                    {% if field.errors %}
+                        <div class="errors">
+                            <strong>{{ field.label }}:</strong>
+                            <ul>
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Submit button -->
+                <form id="registerForm" method="post"  href='send-email/' >
+                     {% csrf_token %}
+                        <button href="login/" type="submit" class="submit-button">Register</button>
+              </form>
+            </form>
+        </div>
+    </div>
+
+    <p class="copy">© 2024 Mr.Chat</p>
+</body>
+</html>

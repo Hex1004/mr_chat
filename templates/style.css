@@ -1,0 +1,106 @@
+  /* Centering the entire page content */
+  body, html {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #000000; /* Background color */
+    font-family: Arial, sans-serif; /* Font style */
+}
+
+/* Welcome text styling */
+.welcometext {
+    margin-top: 65px; /* Margin on top */
+}
+
+/* Register link styling */
+.register {
+    text-decoration: none; /* Remove underline */
+    color: white; /* White text color */
+}
+
+/* Welcome box styling */
+.welcome {
+    display: none; /* Initially hidden */
+    padding: 20px; /* Padding inside box */
+    width: 300px; /* Width of box */
+    height: 300px; /* Height of box */
+    background-color: #000000; /* Background color */
+    color: white; /* Text color */
+    font-size: 24px; /* Font size */
+    font-weight: bold; /* Font weight */
+    text-align: center; /* Center text */
+    border-radius: 15px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Box shadow */
+    animation: fadeIn 1.5s ease forwards; /* Fade-in animation */
+}
+
+/* Fade-in animation for welcome box */
+@keyframes fadeIn {
+    from {
+        opacity: 0; /* Start invisible */
+        transform: translateY(-20px); /* Move up */
+    }
+    to {
+        opacity: 1; /* End visible */
+        transform: translateY(0); /* End in original position */
+    }
+}
+
+/* Fade-in animation for buttons */
+@keyframes fadeInButtons {
+    from {
+        opacity: 0; /* Start invisible */
+        transform: translateY(10px); /* Move down */
+    }
+    to {
+        opacity: 1; /* End visible */
+        transform: translateY(0); /* End in original position */
+    }
+}
+
+/* Button container styling */
+.button-container {
+    margin-top: 40px; /* Margin on top */
+    display: none; /* Initially hidden */
+    justify-content: space-between; /* Space between buttons */
+    animation: fadeInButtons 1s ease forwards; /* Fade-in animation */
+}
+
+/* Button styling */
+.button {
+    padding: 10px 20px; /* Padding inside button */
+    font-size: 16px; /* Font size */
+    background-color: rgb(0, 0, 0); /* Background color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-weight: bold; /* Bold text */
+    transition: background-color 0.3s ease; /* Transition effect */
+    position: relative; /* Position for child elements */
+}
+
+/* Button hover effect */
+.button:hover {
+    background-color: #e0e0e0; /* Light background on hover */
+}
+
+/* Styling links within buttons */
+.button a {
+    text-decoration: none; /* Remove underline */
+    color: white; /* White text color */
+    font-weight: bold; /* Bold font */
+    display: block; /* Make the link occupy the whole button */
+    height: 100%; /* Full height */
+    width: 100%; /* Full width */
+}
+
+.copy {
+    color: white;
+    position: absolute;
+    bottom: 30px; /* Position it under the profile card */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}

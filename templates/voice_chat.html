@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../static/app_img/logo1.png">
+    <title>Mr.Chat Voice Call</title>
+    <style>
+        /* Global Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Container Styling */
+        .voice-chat-container {
+            width: 80%;
+            max-width: 600px;
+            background: #222;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Room Name Input */
+        .room-input {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .room-input input[type="text"] {
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            width: 80%;
+            max-width: 400px;
+            margin-right: 10px;
+            outline: none;
+        }
+
+        .room-input button {
+            padding: 10px 20px;
+            background-color: #000000;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .room-input button:hover {
+            background-color: #3e8e41;
+        }
+
+        /* User Name Overlay */
+        .user-name {
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 15px;
+            margin-top: 10px;
+            background-color: #444;
+            border-radius: 10px;
+        }
+
+        /* Control Button Styling */
+        .control-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .control-button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .control-button:hover {
+            background-color: #777;
+        }
+
+        .control-button.end-call {
+            background-color: #e53935;
+        }
+
+        .control-button.end-call:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Microphone Test Panel */
+        .mic-test-panel {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .mic-test-panel button {
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: #000000;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .mic-test-panel button:hover {
+            background-color: #000000;
+        }
+
+        .mic-test-panel audio {
+            margin-top: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .copy {
+    color: white;
+    position: absolute;
+    bottom: 30px; /* Position it under the profile card */
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+    </style>
+</head>
+<body>
+
+<div class="voice-chat-container">
+    <!-- Room Name Input -->
+    <div class="room-input">
+        <input type="text" id="roomName" placeholder="Enter Room Name">
+        <button onclick="startChat()">Join Room</button>
+    </div>
+
+    <!-- User Name Display -->
+    <div class="user-name" id="userName">User Name</div>
+
+    <!-- Control Panel for Mute, Mute Listening, and End Call -->
+    <div class="control-panel">
+        <div class="control-button" id="micButton" onclick="toggleMic()">
+            <img src="../static/app_img/mic_on.png" alt="Mic On">
+        </div>
+        <div class="control-button" id="muteListeningButton" onclick="toggleMuteListening()">
+            <img src="../static/app_img/mute_off.png" alt="Mute Listening">
+        </div>
+        <div class="control-button end-call" onclick="endCall()">
+            <img src="../static/app_img/end_call.png" alt="End Call">
+        </div>
+    </div>
+
+    <!-- Microphone Test Panel -->
+    <div class="mic-test-panel">
+        <h3>Microphone Test</h3>
+        <button onclick="startRecording()">Record</button>
+        <button onclick="stopRecording()">Stop</button>
+        <audio id="audioPlayback" controls hidden></audio>
+    </div>
+</div>
+
+<p class="copy">© 2024 Mr.Chat</p>
+
+<script>
+    let localStream;
+    let micEnabled = true;
+    let listeningEnabled = true; // New variable for listening
+    let mediaRecorder;
+    let audioChunks = [];
+
+    async function startChat() {
+        const roomName = document.getElementById("roomName").value;
+        if (roomName) {
+            document.getElementById("userName").textContent = "Room: " + roomName;
+        } else {
+            alert("Please enter a room name.");
+            return;
+        }
+
+        // Access user's microphone only
+        try {
+            localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        } catch (error) {
+            alert("Could not access microphone. Please check permissions.");
+            console.error("Error accessing media devices.", error);
+        }
+    }
+
+    function toggleMic() {
+        if (localStream) {
+            micEnabled = !micEnabled;
+            localStream.getAudioTracks()[0].enabled = micEnabled;
+            document.getElementById("micButton").querySelector("img").src = micEnabled ? "mic_on.png" : "mic_off.png";
+        }
+    }
+
+    function toggleMuteListening() {
+        if (localStream) {
+            listeningEnabled = !listeningEnabled;
+            localStream.getAudioTracks().forEach(track => track.enabled = listeningEnabled);
+            document.getElementById("muteListeningButton").querySelector("img").src = listeningEnabled ? "mute_off.png" : "mute_off.png";
+        }
+    }
+
+    function endCall() {
+        if (localStream) {
+            // Stop all tracks to end the call
+            localStream.getTracks().forEach(track => track.stop());
+            alert("Call ended.");
+        }
+    }
+
+    function startRecording() {
+        if (!localStream) {
+            alert("Please join a room to start the microphone test.");
+            return;
+        }
+
+        audioChunks = [];
+        const audioStream = localStream.clone();
+        audioStream.getVideoTracks().forEach(track => track.stop()); // Only keep audio for recording
+        mediaRecorder = new MediaRecorder(audioStream);
+        
+        mediaRecorder.ondataavailable = (event) => {
+            audioChunks.push(event.data);
+        };
+
+        mediaRecorder.onstop = () => {
+            const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            const audioURL = URL.createObjectURL(audioBlob);
+            const audioPlayback = document.getElementById("audioPlayback");
+            audioPlayback.src = audioURL;
+            audioPlayback.hidden = false;
+        };
+
+        mediaRecorder.start();
+    }
+
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        }
+    }
+</script>
+</body>
+</html>

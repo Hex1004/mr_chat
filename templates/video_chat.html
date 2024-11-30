@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale: 1.0">
+    <link rel="icon" type="image/png" href="/static/app_img/logo1.png">
+    <title>Mr.Chat Video Call</title>
+
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="/static/app/video_call.css">
+</head>
+<body>
+
+<div class="video-chat-container">
+    <!-- Room Name Input -->
+    <div class="room-input">
+        <input type="text" id="roomName" placeholder="Enter Room Name">
+        <button onclick="startChat()">Join Room</button>
+    </div>
+
+    <!-- Video Screen with User Name -->
+    <div class="video-screen-container">
+        <video id="userVideo" autoplay playsinline></video>
+        <div class="user-name" id="userName">User Name</div>
+    </div>
+
+    <!-- Mini Screen for Camera Feed (Visible During Screen Sharing) -->
+    <div class="mini-screen" id="miniScreen" style="display: none;">
+        <video id="miniCamVideo" autoplay playsinline></video>
+    </div>
+
+    <!-- Timer Display -->
+    <div class="timer" id="callTimer">00:00</div>
+
+    <!-- Control Panel for Mute, Camera, Mute Listening, End Call, Screen Share -->
+    <div class="control-panel">
+        <div class="control-button" id="micButton" onclick="toggleMic()">
+            <img src="/static/app_img/mic_on.png" alt="Mic On">
+        </div>
+        <div class="control-button" id="camButton" onclick="toggleCam()">
+            <img src="/static/app_img/camera_on.png" alt="Camera On">
+        </div>
+        <div class="control-button" id="muteListeningButton" onclick="toggleMuteListening()">
+            <img src="/static/app_img/mute_off.png" alt="Mute Listening">
+        </div>
+        <div class="control-button" id="shareScreenButton" onclick="askForScreenQuality()">
+            <img src="/static/app_img/7359521.png" alt="Share Screen">
+        </div>
+        <div class="control-button end-call" onclick="endCall()">
+            <img src="/static/app_img/end_call.png" alt="End Call">
+        </div>
+    </div>
+
+    <!-- Microphone Test Panel -->
+    <div class="mic-test-panel">
+        <h3>Microphone Test</h3>
+        <button onclick="startRecording()">Record</button>
+        <button onclick="stopRecording()">Stop</button>
+        <audio id="audioPlayback" controls hidden></audio>
+    </div>
+</div>
+
+<!-- Modal for Quality Selection -->
+<div class="quality-modal" id="qualityModal">
+    <h3>Select Screen Share Quality</h3>
+    <button onclick="shareScreen('720')">720p</button>
+    <button onclick="shareScreen('1080')">1080p</button>
+    <button onclick="closeQualityModal()">Cancel</button>
+</div>
+
+<!-- Link to external JS file -->
+{% load static %}
+<script src="{% static 'javascript/video_call.js' %}" defer></script>
+<script>
+      let localStream;
+    let micEnabled = true;
+    let camEnabled = true;
+    let listeningEnabled = true;
+    let screenStream;
+    let startTime;
+    let timerInterval;
+
+    async function startChat() {
+        try {
+            const constraints = {
+                video: true,
+                audio: true
+            };
+
+            localStream = await navigator.mediaDevices.getUserMedia(constraints);
+            document.getElementById("userVideo").srcObject = localStream;
+
+            startCallTimer();
+        } catch (err) {
+            alert("Error accessing media devices: " + err.message);
+        }
+    }
+
+    function toggleMic() {
+        if (localStream) {
+            micEnabled = !micEnabled;
+            localStream.getAudioTracks()[0].enabled = micEnabled;
+            document.getElementById("micButton").querySelector("img").src = micEnabled ? "mic_on.png" : "mic_off.png";
+        }
+    }
+
+    function toggleCam() {
+        if (localStream) {
+            camEnabled = !camEnabled;
+            localStream.getVideoTracks()[0].enabled = camEnabled;
+            document.getElementById("camButton").querySelector("img").src = camEnabled ? "camera_on.png" : "camera_off.png";
+        }
+    }
+
+    function toggleMuteListening() {
+        if (localStream) {
+            listeningEnabled = !listeningEnabled;
+            localStream.getAudioTracks().forEach(track => track.enabled = listeningEnabled);
+            document.getElementById("muteListeningButton").querySelector("img").src = listeningEnabled ? "mute_off.png" : "mute_off.png";
+        }
+    }
+
+    function endCall() {
+        if (localStream) {
+            localStream.getTracks().forEach(track => track.stop());
+            document.getElementById("userVideo").srcObject = null;
+            if (screenStream) {
+                screenStream.getTracks().forEach(track => track.stop());
+            }
+            document.getElementById("callTimer").innerHTML = "00:00";
+            clearInterval(timerInterval);
+            alert("Call ended.");
+        }
+    }
+
+    function askForScreenQuality() {
+        document.getElementById("qualityModal").style.display = 'block';
+    }
+
+    function closeQualityModal() {
+        document.getElementById("qualityModal").style.display = 'none';
+    }
+
+    async function shareScreen(quality) {
+        try {
+            const constraints = {
+                video: {
+                    width: { ideal: quality === '1080' ? 1920 : 1280 },
+                    height: { ideal: quality === '1080' ? 1080 : 720 },
+                }
+            };
+
+            screenStream = await navigator.mediaDevices.getDisplayMedia(constraints);
+            document.getElementById("userVideo").srcObject = screenStream;
+
+            // Add mini screen with camera feed
+            document.getElementById("miniCamVideo").srcObject = localStream;
+
+            // Display the mini screen
+            document.getElementById("miniScreen").style.display = 'block';
+
+            startCallTimer();
+
+            closeQualityModal();
+        } catch (error) {
+            alert("Failed to share screen: " + error.message);
+            console.error("Error sharing screen", error);
+        }
+    }
+
+    function startCallTimer() {
+        startTime = Date.now();
+        timerInterval = setInterval(() => {
+            let elapsedTime = Date.now() - startTime;
+            let minutes = Math.floor(elapsedTime / 60000);
+            let seconds = Math.floor((elapsedTime % 60000) / 1000);
+            document.getElementById("callTimer").innerHTML = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }, 1000);
+    }
+
+    function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        }
+    }
+</script>
+
+<p class="copy">© 2024 Mr.Chat</p>
+
+</body>
+</html>

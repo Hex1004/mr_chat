@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'images/logo1.png' %}">
+    <link rel="stylesheet" href="{% static 'home/base.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Mr.Chat</title>
+</head>
+<body>
+ {% block content %}
+   <nav class="menu">
+    <button class="menu-toggle" aria-label="Open Menu">☰</button>
+    <div class="menu-items">
+        <button class="menu-close" aria-label="Close Menu">✖</button>
+        <a href="#home">Home</a>
+        <a href="#contact-us">Contact Us</a>
+        <a href="#about-us">About Us</a>
+        <a href="#our-mission">Our Mission</a>
+        <a href="#plans">Support Me</a>
+    </div>
+</nav>
+    <section id="home">
+        <div id="home-content">
+            <h1>Welcome to Mr.Chat</h1>
+            <h2>The best app for you.</h2>
+             <button onclick="window.location.href='home/'"><a href="/home/">Start Now</a></button>
+        </div>
+    </section>
+
+    <section id="about-us">
+        <p>Welcome to Mr.Chat, the chat platform that revolutionizes how you connect and communicate! At Mr.Chat, we prioritize your experience by creating a seamless and intuitive space for all your conversations—whether personal, professional, or community-focused. With cutting-edge features such as real-time messaging, customizable chat rooms, and unparalleled privacy settings, we’re designed to meet your unique communication needs. Dive into a world where connection is more than just exchanging words; it’s about building relationships and fostering collaboration effortlessly. Join Mr.Chat today and discover why it’s the best chat platform tailored just for you.</p>
+        <img src="{% static 'images/Untitled design.png' %}" class="rounded-image_2" alt="Description of the image">
+    </section>
+
+    <section id="our-mission" class="mission-section">
+        <div>
+            <p>
+                At Mr.Chat, our mission is clear: to transform how people communicate by providing a platform that is innovative, secure, and user-centric. We strive to build an environment where every conversation matters, connecting people from all walks of life in an easy and meaningful way. Our goals include:
+                <br><br>
+                1. Enhancing Connectivity: We aim to bring people closer, no matter where they are, with a fast and reliable communication platform.<br>
+                2. Prioritizing Privacy and Security: We are committed to safeguarding user data with advanced encryption and robust privacy protocols.<br>
+                3. Empowering Users: By offering customizable features and user-friendly tools, we give our users control over their chat experience.<br>
+                4. Fostering Inclusivity and Community: We believe that communication should be inclusive. That’s why we are dedicated to creating a platform that’s welcoming to everyone, fostering spaces where ideas and relationships flourish.
+            </p>
+        </div>
+        <img src="{% static 'images/team.png' %}" class="rounded-image" alt="Description of the image">
+    </section>
+
+    <!-- New Plans Section -->
+    <section id="plans">
+        <div class="plans-container">
+            <div class="plan">
+                <h3>Free </h3>
+                <ul>
+                    <li>he app is completely free for all and it's made to connect people.</li></li>
+                 
+                </ul>
+                   <button onclick="window.location.href='home/'"><a href="/home/">Start Now</a></button>
+            </div>
+            <div class="plan premium">
+                <h3>Support Me</h3>
+                <ul>
+                    <li>If you like my work and want to support me, 
+                    it would mean a lot! </li>
+                </ul>
+                <button onclick="window.location.href=''"><a href="https://www.paypal.com/donate/?hosted_button_id=LGPNYNP753MX2">Support Me</a></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact-us">
+        <div class="contact-form">
+            <h2>Contact Us</h2>
+            <form action="#" method="post">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" placeholder="Your name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Your email" required>
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+                 {% csrf_token %}
+                <button type="submit">Send Message</button>
+            </form>
+            <p class="copy">© 2024 Mr.Chat</p>
+        </div>
+    </section>
+
+    <script src="{% static 'javascript/base.js' %}" defer></script>
+ {% endblock content %}
+</body>
+</html>
