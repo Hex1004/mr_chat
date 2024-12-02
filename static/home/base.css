@@ -21,7 +21,7 @@ nav {
     justify-content: space-between;
 
 }
-      /* Cookie Consent Styles */
+         /* Cookie Consent Styles */
         .cookie-tab {
             position: fixed;
             top: 0;
@@ -38,17 +38,14 @@ nav {
             text-align: center;
             padding: 20px;
         }
-
         .cookie-tab p {
             font-size: 1.2rem;
             margin-bottom: 20px;
         }
-
         .cookie-buttons {
             display: flex;
             gap: 20px;
         }
-
         .cookie-buttons button {
             background-color: #007bff;
             color: white;
@@ -59,19 +56,15 @@ nav {
             border-radius: 5px;
             transition: background-color 0.3s ease;
         }
-
         .cookie-buttons button:hover {
             background-color: #0056b3;
         }
-
         .cookie-buttons button#reject-cookies {
             background-color: #dc3545;
         }
-
         .cookie-buttons button#reject-cookies:hover {
             background-color: #a71d2a;
         }
-
 .menu-toggle {
     background: none;
     border: none;
