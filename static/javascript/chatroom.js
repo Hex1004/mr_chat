@@ -1,4 +1,4 @@
-   document.getElementById('show-search-button').addEventListener('click', function () {
+ document.getElementById('show-search-button').addEventListener('click', function () {
     document.getElementById('search-container').style.display = 'flex';
 });
 
