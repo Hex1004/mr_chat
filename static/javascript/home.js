@@ -9,25 +9,20 @@
         }
         return null;
     }
-
     function showWelcomeMessage() {
         const welcomeBox = document.getElementById('welcomeBox');
         const buttonContainer = document.getElementById('buttonContainer');
         welcomeBox.style.display = 'block';
-
         setTimeout(() => {
             buttonContainer.style.display = 'flex';
         }, 1400);
     }
-
     window.addEventListener('load', () => {
         setTimeout(showWelcomeMessage, 500);
     });
-
     // Example of using CSRF Token in a fetch request
     function sendData() {
         const csrfToken = getCSRFToken();
-
         fetch('/api/endpoint/', {
             method: 'POST',
             headers: {
