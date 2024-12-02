@@ -59,16 +59,14 @@
             <div class="plan">
                 <h3>Free </h3>
                 <ul>
-                    <li>he app is completely free for all and it's made to connect people.</li></li>
-                 
+                    <li>The app is completely free for all and it's made to connect people.</li>
                 </ul>
-                   <button onclick="window.location.href='home/'"><a href="/home/">Start Now</a></button>
+                <button onclick="window.location.href='home/'"><a href="/home/">Start Now</a></button>
             </div>
             <div class="plan premium">
                 <h3>Support Me</h3>
                 <ul>
-                    <li>If you like my work and want to support me, 
-                    it would mean a lot! </li>
+                    <li>If you like my work and want to support me, it would mean a lot!</li>
                 </ul>
                 <button onclick="window.location.href=''"><a href="https://www.paypal.com/donate/?hosted_button_id=LGPNYNP753MX2">Support Me</a></button>
             </div>
@@ -93,6 +91,15 @@
             <p class="copy">© 2024 Mr.Chat</p>
         </div>
     </section>
+
+    <!-- Cookies Tab -->
+    <div id="cookie-consent" class="cookie-tab">
+        <p>We use cookies to ensure you get the best experience on our website. By using our site, you agree to our use of cookies. <a href="/privacy-policy">Learn more</a>.</p>
+        <div class="cookie-buttons">
+            <button id="accept-cookies">Accept</button>
+            <button id="reject-cookies">Reject</button>
+        </div>
+    </div>
 
     <script src="{% static 'javascript/base.js' %}" defer></script>
  {% endblock content %}

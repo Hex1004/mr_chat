@@ -13,11 +13,12 @@ document.getElementById('submit-search').addEventListener('click', () => {
             .then(users => {
                 if (users.length > 0) {
                     users.forEach(user => {
+                        const truncatedEmail = user.email.split('@')[0]; // Shorten the email
                         const userElement = document.createElement('div');
                         userElement.classList.add('user-result');
                         userElement.innerHTML = `
                             <div class="user-result-info">
-                                <p>${user.username} ${user.email}</p>
+                                <p>${user.username} (${truncatedEmail}...)</p>
                             </div>
                             <button class="add-to-chat-button" data-username="${user.username}" data-id="${user.id}">Message</button>
                         `;
@@ -29,6 +30,7 @@ document.getElementById('submit-search').addEventListener('click', () => {
                             const username = this.getAttribute('data-username');
                             const userId = this.getAttribute('data-id');
 
+                            // Update chat interface
                             document.querySelector('.message').style.display = 'none';
                             document.getElementById('chat-interface').style.display = 'flex';
                             document.getElementById('chat-username').textContent = username;
@@ -37,8 +39,13 @@ document.getElementById('submit-search').addEventListener('click', () => {
 
                             // Save chat locally
                             const chats = JSON.parse(localStorage.getItem('chats') || '[]');
-                            chats.push({ id: userId, username: username });
-                            localStorage.setItem('chats', JSON.stringify(chats));
+                            if (!chats.some(chat => chat.id === userId)) {
+                                chats.push({ id: userId, username: username });
+                                localStorage.setItem('chats', JSON.stringify(chats));
+                            }
+
+                            // Enable direct message sending
+                            sendMessage(username);
                         });
                     });
                 } else {
@@ -54,12 +61,38 @@ document.getElementById('submit-search').addEventListener('click', () => {
     }
 });
 
+// Function to send a message
+function sendMessage(username) {
+    const messageInput = document.querySelector('.input-section input');
+    const sendButton = document.querySelector('.input-section button');
 
-// WebSocket logic
+    sendButton.addEventListener('click', function () {
+        const message = messageInput.value.trim();
+        if (message) {
+            chatSocket.send(JSON.stringify({
+                message: message,
+                username: username
+            }));
+            messageInput.value = "";
+        }
+    });
+}
+
+// WebSocket for chat
 const chatSocket = new WebSocket("ws://" + window.location.host + "/");
 
 chatSocket.onopen = function () {
     console.log("WebSocket connection established!");
+};
+
+chatSocket.onmessage = function (e) {
+    const data = JSON.parse(e.data);
+    const messageContainer = document.getElementById("messages");
+
+    const messageElement = document.createElement("div");
+    messageElement.textContent = `${data.username}: ${data.message}`;
+    messageElement.style.color = "white";
+    messageContainer.appendChild(messageElement);
 };
 
 chatSocket.onclose = function () {
