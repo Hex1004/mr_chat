@@ -59,7 +59,7 @@ CSRF_COOKIE_SECURE = True
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -102,13 +102,17 @@ INSTALLED_APPS = [
     "channels",
     'csp',
     'debug_toolbar',
+     'corsheaders',
 ]
-
+CORS_ORIGIN_WHITELIST = [
+    'https://mr-chat.onrender.com',
+]
 ASGI_APPLICATION = 'mr_chat.asgi.application'
 
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

@@ -79,7 +79,8 @@ function sendMessage(username) {
 }
 
 // WebSocket for chat
-const chatSocket = new WebSocket("wss://" + window.location.host + "/");
+const chatSocket = new WebSocket(`wss://mr-chat.onrender.com/home/login/chatroom/`);
+
 
 chatSocket.onopen = function () {
     console.log("WebSocket connection established!");
