@@ -79,13 +79,18 @@ function sendMessage(username) {
 }
 
 // WebSocket for chat
-const chatSocket = new WebSocket("ws://" + window.location.host + "/");
+const chatSocket = new WebSocket("wss://" + window.location.host + "/");
 
 chatSocket.onopen = function () {
     console.log("WebSocket connection established!");
 };
 
+chatSocket.onerror = function (error) {
+    console.error("WebSocket error observed:", error);
+};
+
 chatSocket.onmessage = function (e) {
+    console.log("Message received:", e.data);
     const data = JSON.parse(e.data);
     const messageContainer = document.getElementById("messages");
 
