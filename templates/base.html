@@ -101,7 +101,26 @@
         </div>
     </div>
 
-    <script src="{% static 'javascript/base.js' %}"></script>
+    <script>
+        document.getElementById('accept-cookies').addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'true');
+            document.getElementById('cookie-consent').style.display = 'none';
+        });
+
+        document.getElementById('reject-cookies').addEventListener('click', () => {
+            localStorage.setItem('cookiesAccepted', 'false');
+            document.getElementById('cookie-consent').style.display = 'none';
+        });
+
+        // Check cookies consent on load
+        window.onload = () => {
+            if (localStorage.getItem('cookiesAccepted') === 'true') {
+                document.getElementById('cookie-consent').style.display = 'none';
+            }
+        };
+    </script>
+
+    <script src="{% static 'javascript/base.js' %}" defer></script>
  {% endblock content %}
 </body>
 </html>
