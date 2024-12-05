@@ -16,3 +16,4 @@ class Profile(models.Model):
     def set_password(self, raw_password):
         """Hash and set the password."""
         self.password = make_password(raw_password)
+

@@ -7,7 +7,8 @@ from django.utils.crypto import get_random_string
 from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from mr_chat.profiles.models import Profile
-
+from mr_chat.profiles.forms import ContactForm
+from django.http import HttpResponseRedirect
 
 
 def register(request):
@@ -48,3 +49,32 @@ def logi(request):
             return render(request, 'login.html')
 
     return render(request, 'login.html')
+
+
+def contact_us(request):
+    if request.method == 'POST':
+        # Retrieve form data from POST request
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+
+        # Format the email message
+        full_message = f"From: {name} <{email}>\n\n{message}"
+
+        try:
+            # Send the email using Mailjet settings
+            send_mail(
+                subject,
+                full_message,
+                'mrchat.contact@gmail.com',
+                ['mrchat.contact@gmail.com'],
+                fail_silently=False,
+            )
+            messages.success(request, "Your message was sent successfully.")
+        except Exception as e:
+            messages.error(request, f"An error occurred: {e}")
+
+        return redirect('/#contact-us')
+
+    return HttpResponseRedirect('/')

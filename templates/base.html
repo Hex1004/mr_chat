@@ -76,18 +76,18 @@
     <section id="contact-us">
         <div class="contact-form">
             <h2>Contact Us</h2>
-            <form action="#" method="post">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" placeholder="Your name" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" placeholder="Your email" required>
-                <label for="subject">Subject:</label>
-                <input type="text" id="subject" name="subject" placeholder="Subject" required>
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
-                 {% csrf_token %}
-                <button type="submit">Send Message</button>
-            </form>
+          <form action="{% url 'contact_us' %}" method="post">
+    {% csrf_token %}
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" placeholder="Your name" required>
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" placeholder="Your email" required>
+    <label for="subject">Subject:</label>
+    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+    <label for="message">Message:</label>
+    <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+    <button type="submit">Send Message</button>
+</form>
             <p class="copy">© 2024 Mr.Chat</p>
         </div>
     </section>
@@ -100,26 +100,7 @@
             <button id="reject-cookies">Reject</button>
         </div>
     </div>
-
-    <script>
-        document.getElementById('accept-cookies').addEventListener('click', () => {
-            localStorage.setItem('cookiesAccepted', 'true');
-            document.getElementById('cookie-consent').style.display = 'none';
-        });
-
-        document.getElementById('reject-cookies').addEventListener('click', () => {
-            localStorage.setItem('cookiesAccepted', 'false');
-            document.getElementById('cookie-consent').style.display = 'none';
-        });
-
-        // Check cookies consent on load
-        window.onload = () => {
-            if (localStorage.getItem('cookiesAccepted') === 'true') {
-                document.getElementById('cookie-consent').style.display = 'none';
-            }
-        };
-    </script>
-
+     
     <script src="{% static 'javascript/base.js' %}" defer></script>
  {% endblock content %}
 </body>
