@@ -104,6 +104,7 @@ INSTALLED_APPS = [
     "channels",
     'csp',
     'debug_toolbar',
+    'gunicorn',
 ]
 
 ASGI_APPLICATION = 'mr_chat.asgi.application'
