@@ -107,6 +107,7 @@ INSTALLED_APPS = [
     'gunicorn',
 ]
 
+
 ASGI_APPLICATION = 'mr_chat.asgi.application'
 
 
