@@ -2,12 +2,7 @@
   "builds": [
     {
       "src": "mr_chat/wsgi.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "15mb",
-        "runtime": "python3.12",
-        "installCommand": "apt-get update && apt-get install -y libpq-dev && pip install -r requirements.txt"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
