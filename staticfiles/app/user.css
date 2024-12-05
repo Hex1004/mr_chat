@@ -21,6 +21,16 @@ body {
     font-weight: bold;
 }
 
+.button-logout {
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: -10px;
+
+}
 .profile-card {
     display: flex;
     flex-direction: column;
