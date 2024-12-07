@@ -1,37 +1,50 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-
 class ChatConsumer(AsyncWebsocketConsumer):
-    def __init__(self, *args, **kwargs):
-        super().__init__(args, kwargs)
-        self.channel = None
-
     async def connect(self):
-        self.roomGroupName = "group_chat_gfg"
+        # Set the group name (can be dynamically assigned per user/chat)
+        self.room_group_name = "group_chat_gfg"
+
+        # Join the chat group
         await self.channel_layer.group_add(
-            self.roomGroupName,
+            self.room_group_name,
             self.channel_name
         )
+
+        # Accept the WebSocket connection
         await self.accept()
 
     async def disconnect(self, close_code):
-        # Corrected to use `channel_layer`
+        # Leave the chat group on disconnect
         await self.channel_layer.group_discard(
-            self.roomGroupName,
+            self.room_group_name,
             self.channel_name
         )
 
     async def receive(self, text_data):
+        # Parse the received message
         text_data_json = json.loads(text_data)
         message = text_data_json["message"]
+        username = text_data_json.get("username", "Unknown")
+
+        # Broadcast the message to the group
         await self.channel_layer.group_send(
-            self.roomGroupName, {
-                "type": "sendMessage",
+            self.room_group_name,
+            {
+                "type": "send_message",
                 "message": message,
-            })
+                "username": username,
+            }
+        )
 
-    async def sendMessage(self, event):
+    # This method is used to send the message to WebSocket clients
+    async def send_message(self, event):
         message = event["message"]
-        await self.send(text_data=json.dumps({"message": message}))
+        username = event["username"]
 
+        # Send the message to the WebSocket
+        await self.send(text_data=json.dumps({
+            "message": message,
+            "username": username,
+        }))

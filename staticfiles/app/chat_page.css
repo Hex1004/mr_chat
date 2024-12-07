@@ -150,10 +150,51 @@
 }
 
 .messages-container {
-    overflow-y: auto;
-    height: calc(100vh - 150px);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto; /* Scrollable if messages exceed container height */
+    max-height: 500vh; /* Adjusted to fit within the screen */
     padding: 10px;
     background-color: #000000;
+    border-radius: 10px;
+    margin: 10px;
+    scrollbar-width: thin; /* For better scrollbar appearance */
+}
+
+.message {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%; /* Keeps messages from being too wide */
+    word-wrap: break-word; /* Ensures long words break into multiple lines */
+}
+
+.message.user-message {
+    align-self: flex-end; /* Aligns user's messages to the right */
+    background-color: #4caf50; /* Green background for user's messages */
+    color: white;
+}
+
+.message.other-message {
+    align-self: flex-start; /* Aligns other messages to the left */
+    background-color: #555; /* Gray background for other messages */
+    color: white;
+}
+
+/* To make the scrollbar less intrusive */
+.messages-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+    background-color: #555; /* Thumb color */
+    border-radius: 5px;
+}
+
+.messages-container::-webkit-scrollbar-track {
+    background-color: #222; /* Track color */
 }
 
 
