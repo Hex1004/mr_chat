@@ -82,49 +82,56 @@ function setupSendMessage(username) {
     };
 }
 
-// WebSocket for chat
-const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-const chatSocket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/`);
+let chatSocket;
 
-chatSocket.onopen = function () {
-    console.log("WebSocket connection established!");
-};
+function initializeWebSocket(username) {
+    // Set up the WebSocket connection
+   const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+   const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
 
-chatSocket.onmessage = function (e) {
-    const data = JSON.parse(e.data);
-    const messageContainer = document.getElementById("messages");
+    chatSocket.onopen = () => {
+        console.log("WebSocket connection established");
+    };
 
-    const messageElement = document.createElement("div");
-    messageElement.textContent = `${data.username}: ${data.message}`;
-    messageElement.style.color = "white";
-    messageContainer.appendChild(messageElement);
-};
+    chatSocket.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log("Message received:", data);
+        // Handle incoming messages
+    };
 
-chatSocket.onerror = function (error) {
-    console.error("WebSocket Error: ", error);
-};
+    chatSocket.onerror = (error) => {
+        console.error("WebSocket error:", error);
+    };
 
-chatSocket.onclose = function (e) {
-    console.warn("WebSocket closed unexpectedly: ", e.reason);
-};
+    chatSocket.onclose = () => {
+        console.log("WebSocket connection closed");
+    };
+}
 
-
-chatSocket.onclose = function () {
-    console.log("WebSocket connection closed unexpectedly.");
-};
-
-document.querySelector('.input-section button').addEventListener('click', function () {
+// Function to send a message
+function sendMessage(username) {
     const messageInput = document.querySelector('.input-section input');
-    const message = messageInput.value.trim();
+    const sendButton = document.querySelector('.input-section button');
 
-    if (message) {
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'email': '{{ user.email }}'
-        }));
-        messageInput.value = "";
-    }
-});
+    sendButton.addEventListener('click', function () {
+        const message = messageInput.value.trim();
+        if (message && chatSocket && chatSocket.readyState === WebSocket.OPEN) {
+            chatSocket.send(JSON.stringify({
+                message: message,
+                username: username
+            }));
+            messageInput.value = ""; // Clear the input
+        } else {
+            console.error("Unable to send message. WebSocket not connected.");
+        }
+    });
+}
+
+// Initialize the WebSocket and set up the sendMessage functionality
+function setupChat(username) {
+    initializeWebSocket(username);
+    sendMessage(username);
+}
 
 chatSocket.onmessage = function (e) {
     const data = JSON.parse(e.data);
