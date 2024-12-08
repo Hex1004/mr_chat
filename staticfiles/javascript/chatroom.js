@@ -61,26 +61,7 @@ document.getElementById('submit-search').addEventListener('click', () => {
     }
 });
 
-// Function to send a message
-function setupSendMessage(username) {
-    const sendButton = document.querySelector('.input-section button');
-    const messageInput = document.querySelector('.input-section input');
 
-    sendButton.onclick = function () {
-        const message = messageInput.value.trim();
-        if (message) {
-            if (chatSocket.readyState === WebSocket.OPEN) {
-                chatSocket.send(JSON.stringify({
-                    message: message,
-                    username: username
-                }));
-                messageInput.value = ""; // Clear input
-            } else {
-                console.error("WebSocket is not open.");
-            }
-        }
-    };
-}
 
 let chatSocket;
 
