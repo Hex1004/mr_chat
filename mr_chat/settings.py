@@ -48,6 +48,10 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 
+CSP_DEFAULT_SRC = ["'self'"]
+CSP_CONNECT_SRC = ["'self'", "wss://mr-chat.onrender.com", "ws://mr-chat.onrender.com"]
+
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
