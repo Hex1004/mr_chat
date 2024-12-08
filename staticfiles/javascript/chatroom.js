@@ -79,7 +79,7 @@ function sendMessage(username) {
 }
 
 // WebSocket for chat
-const chatSocket = new WebSocket("ws://" + window.location.host + "/");
+const chatSocket = new WebSocket("wss://mr-chat.onrender.com/");
 
 chatSocket.onopen = function () {
     console.log("WebSocket connection established!");
@@ -94,6 +94,15 @@ chatSocket.onmessage = function (e) {
     messageElement.style.color = "white";
     messageContainer.appendChild(messageElement);
 };
+
+chatSocket.onerror = function (error) {
+    console.error("WebSocket Error: ", error);
+};
+
+chatSocket.onclose = function (e) {
+    console.log("WebSocket connection closed: ", e.reason);
+};
+
 
 chatSocket.onclose = function () {
     console.log("WebSocket connection closed unexpectedly.");
