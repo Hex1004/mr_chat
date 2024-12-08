@@ -62,24 +62,34 @@ document.getElementById('submit-search').addEventListener('click', () => {
 });
 
 // Function to send a message
-function sendMessage(username) {
-    const messageInput = document.querySelector('.input-section input');
+function setupSendMessage(username) {
     const sendButton = document.querySelector('.input-section button');
+    const messageInput = document.querySelector('.input-section input');
 
-    sendButton.addEventListener('click', function () {
+    sendButton.onclick = function () {
         const message = messageInput.value.trim();
         if (message) {
-            chatSocket.send(JSON.stringify({
-                message: message,
-                username: username
-            }));
-            messageInput.value = "";
+            if (chatSocket.readyState === WebSocket.OPEN) {
+                chatSocket.send(JSON.stringify({
+                    message: message,
+                    username: username
+                }));
+                messageInput.value = ""; // Clear input
+            } else {
+                console.error("WebSocket is not open.");
+            }
         }
-    });
+    };
 }
 
 // WebSocket for chat
-const chatSocket = new WebSocket("wss://mr-chat.onrender.com/");
+const chatSocket = new WebSocket(`wss://${window.location.host}/ws/chat/`);
+
+if (chatSocket.readyState === WebSocket.OPEN) {
+    chatSocket.send(/* your data */);
+} else {
+    console.error("WebSocket connection is not open.");
+}
 
 chatSocket.onopen = function () {
     console.log("WebSocket connection established!");
@@ -100,7 +110,7 @@ chatSocket.onerror = function (error) {
 };
 
 chatSocket.onclose = function (e) {
-    console.log("WebSocket connection closed: ", e.reason);
+    console.warn("WebSocket closed unexpectedly: ", e.reason);
 };
 
 
