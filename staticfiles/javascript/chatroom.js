@@ -68,7 +68,6 @@ const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
 function sendMessage(username) {
     const messageInput = document.querySelector('.input-section input');
     const sendButton = document.querySelector('.input-section button');
-
     sendButton.addEventListener('click', function () {
         const message = messageInput.value.trim();
         if (message) {
@@ -81,10 +80,8 @@ function sendMessage(username) {
         }
     });
 }
-
-const currentUser = JSON.parse(sessionStorage.getItem('user')).username;
-sendMessage(currentUser);
-
+// Example usage: call sendMessage with a username
+sendMessage();
 
 
 
