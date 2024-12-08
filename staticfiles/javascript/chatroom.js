@@ -83,13 +83,8 @@ function setupSendMessage(username) {
 }
 
 // WebSocket for chat
-const chatSocket = new WebSocket(`wss://${window.location.host}/ws/chat/`);
-
-if (chatSocket.readyState === WebSocket.OPEN) {
-    chatSocket.send(/* your data */);
-} else {
-    console.error("WebSocket connection is not open.");
-}
+const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+const chatSocket = new WebSocket(`${protocol}://${window.location.host}/ws/chat/`);
 
 chatSocket.onopen = function () {
     console.log("WebSocket connection established!");
