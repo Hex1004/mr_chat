@@ -61,6 +61,31 @@ document.getElementById('submit-search').addEventListener('click', () => {
     }
 });
 
+const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
+
+
+function sendMessage(username) {
+    const messageInput = document.querySelector('.input-section input');
+    const sendButton = document.querySelector('.input-section button');
+
+    sendButton.addEventListener('click', function () {
+        const message = messageInput.value.trim();
+        if (message) {
+            // Use chatSocket to send the message
+            chatSocket.send(JSON.stringify({
+                message: message,
+                username: username
+            }));
+            messageInput.value = "";
+        }
+    });
+}
+
+const currentUser = JSON.parse(sessionStorage.getItem('user')).username;
+sendMessage(currentUser);
+
+
 
 
 let chatSocket;
@@ -93,26 +118,6 @@ function initializeWebSocket(username) {
 const protocol = window.location.protocol === "https:" ? "wss" : "ws";
 const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
 
-// Function to send a message
-function sendMessage(username) {
-    const messageInput = document.querySelector('.input-section input');
-    const sendButton = document.querySelector('.input-section button');
-
-    sendButton.addEventListener('click', function () {
-        const message = messageInput.value.trim();
-        if (message) {
-            // Use chatSocket to send the message
-            chatSocket.send(JSON.stringify({
-                message: message,
-                username: username
-            }));
-            messageInput.value = "";
-        }
-    });
-}
-
-// Example usage: call sendMessage with a username
-sendMessage();
 
 // Initialize the WebSocket and set up the sendMessage functionality
 function setupChat(username) {
