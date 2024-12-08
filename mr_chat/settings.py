@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 from decouple import  config
 import dj_database_url
+from dotenv import load_dotenv
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -66,7 +67,8 @@ EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
 EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD ")
 
-
+dotenv_path = Path(__file__).resolve().parent / '.env'
+load_dotenv(dotenv_path)
 
 
 CHANNEL_LAYERS = {
@@ -162,12 +164,12 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default='5432'),  # Optional default value
+        'ENGINE': os.getenv('DB_ENGINE'),
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
 
