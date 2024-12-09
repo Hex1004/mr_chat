@@ -117,7 +117,6 @@ INSTALLED_APPS = [
     'mr_chat.chat_app',
     "channels",
     'csp',
-    'debug_toolbar',
     'gunicorn',
 ]
 
@@ -138,7 +137,6 @@ MIDDLEWARE = [
     'csp.middleware.CSPMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.gzip.GZipMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
 ]
 
