@@ -61,27 +61,39 @@ document.getElementById('submit-search').addEventListener('click', () => {
     }
 });
 
-const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
-
-
 function sendMessage(username) {
     const messageInput = document.querySelector('.input-section input');
     const sendButton = document.querySelector('.input-section button');
+
+    // Ensure WebSocket URL uses "wss://" if the site is served over HTTPS
+    const wsProtocol = window.location.protocol === "https:" ? "wss://" : "ws://";
+    const chatSocket = new WebSocket(wsProtocol + window.location.host + "/");
+
+    // Add the WebSocket event listeners (optional for handling errors, open state)
+    chatSocket.addEventListener('open', function () {
+        console.log('WebSocket connection established.');
+    });
+
+    chatSocket.addEventListener('error', function (error) {
+        console.error('WebSocket error:', error);
+    });
+
     sendButton.addEventListener('click', function () {
         const message = messageInput.value.trim();
         if (message) {
-            // Use chatSocket to send the message
-            chatSocket.send(JSON.stringify({
-                message: message,
-                username: username
-            }));
-            messageInput.value = "";
+            // Ensure WebSocket is open before sending a message
+            if (chatSocket.readyState === WebSocket.OPEN) {
+                chatSocket.send(JSON.stringify({
+                    message: message,
+                    username: username
+                }));
+                messageInput.value = "";
+            } else {
+                console.error("WebSocket is not open. Message not sent.");
+            }
         }
     });
 }
-// Example usage: call sendMessage with a username
-sendMessage();
 
 
 
