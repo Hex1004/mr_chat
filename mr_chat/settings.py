@@ -59,8 +59,22 @@ CSP_CONNECT_SRC = ["'self'", "wss://mr-chat.onrender.com", "ws://mr-chat.onrende
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = config('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
+
 DEBUG = os.getenv("DEBUG")
+
+if DEBUG is False:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+# WebSocket URL for Django Channels
+WS_PROTOCOL = 'wss' if not DEBUG else 'ws'
+
+
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+}
+
+
 
 ALLOWED_HOSTS = ['https://mr-chat.onrender.com','localhost','*']
 
