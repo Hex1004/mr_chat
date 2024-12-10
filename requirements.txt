@@ -1,7 +1,7 @@
 ﻿asgiref==3.7.2
 attrs==24.2.0
 autobahn==23.1.2
-Automat==24.8.1
+Automat==22.10.0
 blinker==1.9.0
 CacheControl==0.14.1
 cachetools==5.5.0
