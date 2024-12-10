@@ -143,6 +143,9 @@ INSTALLED_APPS = [
 
 ASGI_APPLICATION = 'mr_chat.asgi.application'
 
+CSRF_TRUSTED_ORIGINS = ['https://mr-chat.onrender.com']
+
+
 
 
 MIDDLEWARE = [
