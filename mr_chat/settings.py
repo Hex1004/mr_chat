@@ -129,6 +129,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.admin.options',
+    'uvicorn',
     "daphne",
     'mr_chat',
     'django.contrib.staticfiles',
