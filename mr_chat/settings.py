@@ -79,7 +79,7 @@ DEBUG_TOOLBAR_CONFIG = {
 
 
 
-ALLOWED_HOSTS = ['https://mr-chat.onrender.com','localhost','*']
+ALLOWED_HOSTS = ['https://mr-chat.onrender.com','localhost','*', '.vercel.app']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = os.getenv('EMAIL_HOST')
