@@ -76,6 +76,9 @@ DEBUG_TOOLBAR_CONFIG = {
 
 
 
+
+
+
 ALLOWED_HOSTS = ['https://mr-chat.onrender.com','localhost','*']
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -88,12 +91,28 @@ EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD ")
 dotenv_path = Path(__file__).resolve().parent / '.env'
 load_dotenv(dotenv_path)
 
+ENVIRONMENT = 'development'
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
+if ENVIRONMENT == 'development':
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer"
+        }
     }
-}
+else:
+    redis_url = os.getenv('REDIS_URL')
+    if not redis_url:
+        raise ValueError("REDIS_URL environment variable is not set in production mode")
+
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
+            "CONFIG": {
+                "hosts": [(redis_url)],
+            }
+        }
+    }
+
 # Application definition
 
 INSTALLED_APPS = [

@@ -210,3 +210,4 @@ window.onload = function () {
     renderChatList();
     loadChatHistory();
 };
+
