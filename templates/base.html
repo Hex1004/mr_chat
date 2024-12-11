@@ -73,24 +73,41 @@
         </div>
     </section>
 
-    <section id="contact-us">
-        <div class="contact-form">
-            <h2>Contact Us</h2>
-          <form action="{% url 'contact_us' %}" method="post">
+<section id="contact-us">
+    <div class="contact-form">
+        <h2>Contact Us</h2>
+   <form method="POST" action="{% url 'contact_us' %}">
     {% csrf_token %}
+    
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" placeholder="Your name" required>
+    <input type="text" id="name" name="name" placeholder="Your name" required value="{{ request.POST.name }}">
+    {% if form.name.errors %}
+        <div class="error">{{ form.name.errors }}</div>
+    {% endif %}
+    
     <label for="email">Email:</label>
-    <input type="email" id="email" name="email" placeholder="Your email" required>
+    <input type="email" id="email" name="email" placeholder="Your email" required value="{{ request.POST.email }}">
+    {% if form.email.errors %}
+        <div class="error">{{ form.email.errors }}</div>
+    {% endif %}
+    
     <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+    <input type="text" id="subject" name="subject" placeholder="Subject" required value="{{ request.POST.subject }}">
+    {% if form.subject.errors %}
+        <div class="error">{{ form.subject.errors }}</div>
+    {% endif %}
+    
     <label for="message">Message:</label>
-    <textarea id="message" name="message" placeholder="Write your message here..." required></textarea>
+    <textarea id="message" name="message" placeholder="Write your message here..." required>{{ request.POST.message }}</textarea>
+    {% if form.message.errors %}
+        <div class="error">{{ form.message.errors }}</div>
+    {% endif %}
+    
     <button type="submit">Send Message</button>
 </form>
-            <p class="copy">© 2024 Mr.Chat</p>
-        </div>
-    </section>
+
+    </div> 
+</section>
 
     <!-- Cookies Tab -->
     <div id="cookie-consent" class="cookie-tab">

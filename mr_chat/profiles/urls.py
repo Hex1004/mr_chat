@@ -7,7 +7,7 @@ from django.conf import settings
 urlpatterns = [
     path('home/register/', register, name='register'),
     path('home/login/', logi, name='login'),
-    path('contact-us/', contact_us, name='contact_us'),
+    path('contact/', contact_us, name='contact_us')
 ]
 
 

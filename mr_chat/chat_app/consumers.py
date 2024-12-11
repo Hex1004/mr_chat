@@ -5,7 +5,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 class ChatConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
-        self.channel = None
+        self.roomGroupName = None  # Initialize roomGroupName correctly
 
     async def connect(self):
         self.roomGroupName = "group_chat_gfg"
@@ -16,7 +16,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.accept()
 
     async def disconnect(self, close_code):
-        await self.channel.name.group_discard(
+        # Corrected line
+        await self.channel_layer.group_discard(
             self.roomGroupName,
             self.channel_name
         )

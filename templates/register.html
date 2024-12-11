@@ -20,7 +20,7 @@
                 {{ form.non_field_errors }} <!-- Display any non-field errors -->
 
                 <div>
-                    <label  for="id_username">Username</label>
+                    <label for="id_username">Username</label>
                     {{ form.username }} <!-- Auto-renders with pre-applied attributes -->
                 </div>
 
@@ -54,10 +54,7 @@
                 {% endfor %}
 
                 <!-- Submit button -->
-                <form id="registerForm" method="post"  href='send-email/' >
-                     {% csrf_token %}
-                        <button href="login/" type="submit" class="submit-button">Register</button>
-              </form>
+                <button type="submit" class="submit-button">Register</button>
             </form>
         </div>
     </div>

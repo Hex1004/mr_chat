@@ -37,15 +37,15 @@ LOGOUT_REDIRECT_URL = '/login/'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# / SECURITY /#
-SECURE_SSL_REDIRECT = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_HSTS_SECONDS = 86400
-SECURE_HSTS_PRELOAD = True
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# # / SECURITY /#
+# SECURE_SSL_REDIRECT = True
+# SECURE_BROWSER_XSS_FILTER = True
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# SECURE_HSTS_SECONDS = 86400
+# SECURE_HSTS_PRELOAD = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 
 
 CSP_DEFAULT_SRC = ["'self'"]
@@ -60,7 +60,7 @@ CSP_CONNECT_SRC = ["'self'", "wss://mr-chat.onrender.com", "ws://mr-chat.onrende
 SECRET_KEY = config('SECRET_KEY')
 
 
-DEBUG = os.getenv("DEBUG")
+DEBUG = config("DEBUG", cast=bool)
 
 if DEBUG is False:
     STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
@@ -72,7 +72,11 @@ WS_PROTOCOL = 'wss' if not DEBUG else 'ws'
 
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': lambda request: DEBUG,
+
+
 }
+
+
 
 
 
@@ -81,15 +85,18 @@ DEBUG_TOOLBAR_CONFIG = {
 
 ALLOWED_HOSTS = ['https://mr-chat.onrender.com','localhost','*']
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = os.getenv('EMAIL_HOST')
-EMAIL_PORT = os.getenv('EMAIL_PORT')
-EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD ")
+load_dotenv()
 
-dotenv_path = Path(__file__).resolve().parent / '.env'
-load_dotenv(dotenv_path)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')  # Get the email host from the .env file
+EMAIL_PORT =  config('EMAIL_PORT')# Default to 587 if not set in .env
+EMAIL_USE_TLS = config('EMAIL_USE_TLS') == "True"  # Convert to boolean
+EMAIL_HOST_USER = config('EMAIL_HOST_USER') # Your email username from .env
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')# Your email password from .env
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')  # Default sender email
+
+
+
 
 ENVIRONMENT = 'development'
 
