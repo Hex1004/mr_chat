@@ -228,8 +228,8 @@ loadChatHistory();
 
 
 
-// WebSocket Consumer for receiving notifications and triggering showNotification
-const socket = new WebSocket(`ws://${window.location.host}/`);
+const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
 
 socket.onmessage = function(event) {
     const data = JSON.parse(event.data);
