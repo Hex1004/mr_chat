@@ -228,19 +228,6 @@ loadChatHistory();
 
 
 
-const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
-
-socket.onmessage = function(event) {
-    const data = JSON.parse(event.data);
-
-    // Check if the data contains the notification
-    if (data.notification) {
-        const notification = data.notification;
-        showNotification(notification.message, notification.username);
-    }
-};
-
 window.onload = function () {
     const chats = JSON.parse(localStorage.getItem('chats') || '[]');
 
@@ -284,100 +271,97 @@ window.onload = function () {
             chatList.appendChild(chatCard);
         });
     }
- document.getElementById('close-chat-button').addEventListener('click', function () {
-    // Hide the chat interface
-    document.getElementById('chat-interface').style.display = 'none';
-
-    // Reset the chat username
-    document.getElementById('chat-username').textContent = 'User Name';
-
-    // Show the "No chats here" message if no chats are active
-    const chats = JSON.parse(localStorage.getItem('chats') || '[]');
-    if (chats.length === 0) {
-        document.querySelector('.message').style.display = 'block';
-    }
-});
     document.getElementById('close-chat-button').addEventListener('click', function () {
-    // Hide the chat interface
-    document.getElementById('chat-interface').style.display = 'none';
+        // Hide the chat interface
+        document.getElementById('chat-interface').style.display = 'none';
 
-    // Reset the chat username
-    document.getElementById('chat-username').textContent = 'User Name';
+        // Reset the chat username
+        document.getElementById('chat-username').textContent = 'User Name';
 
-    // Show the "No chats here" message if no chats are active
-    const chats = JSON.parse(localStorage.getItem('chats') || '[]');
-    if (chats.length === 0) {
-        document.querySelector('.message').style.display = 'block';
-    }
-});
+        // Show the "No chats here" message if no chats are active
+        const chats = JSON.parse(localStorage.getItem('chats') || '[]');
+        if (chats.length === 0) {
+            document.querySelector('.message').style.display = 'block';
+        }
+    });
+
+// Ensure the "Delete Chat" button works correctly
+    document.getElementById('delete-chat-button').addEventListener('click', function () {
+        const chatUsername = document.getElementById('chat-username').textContent;
+
+        // Get the list of chats from localStorage
+        const chats = JSON.parse(localStorage.getItem('chats') || '[]');
+
+        // Filter out the chat with the current username (the one being deleted)
+        const updatedChats = chats.filter(chat => chat.username !== chatUsername);
+
+        // Save the updated chat list back to localStorage
+        localStorage.setItem('chats', JSON.stringify(updatedChats));
+
+        // Hide the chat interface after deleting the chat
+        document.getElementById('chat-interface').style.display = 'none';
+
+        // Show the "No chats here" message if no other chats exist
+        if (updatedChats.length === 0) {
+            document.querySelector('.message').style.display = 'block';
+        }
+
+        // Confirmation alert
+        alert(`Your chat with ${chatUsername} has been deleted.`);
+
+        // Re-render the chat list to reflect the changes
+        renderChatList();
+    });
+
+// Function to render the chat list
     function renderChatList() {
-    const chats = JSON.parse(localStorage.getItem('chats') || '[]');
-    const chatList = document.getElementById('results');
-    chatList.innerHTML = ''; // Clear existing list
+        const chats = JSON.parse(localStorage.getItem('chats') || '[]');
+        const chatList = document.getElementById('results');
+        chatList.innerHTML = ''; // Clear existing list
 
-    chats.forEach(chat => {
-        const chatCard = document.createElement('div');
-        chatCard.classList.add('user-result'); // Apply card styles
+        chats.forEach(chat => {
+            const chatCard = document.createElement('div');
+            chatCard.classList.add('user-result'); // Apply card styles
 
-        chatCard.innerHTML = `
+            chatCard.innerHTML = `
             <div class="user-result-info">
                 <p>${chat.username}</p>
             </div>
             <button class="switch-chat-button" data-username="${chat.username}" data-id="${chat.id}">Open Chat</button>
         `;
 
-        // Add event listener to the "Open Chat" button
-        chatCard.querySelector('.switch-chat-button').addEventListener('click', function () {
-            const username = this.getAttribute('data-username');
-            const userId = this.getAttribute('data-id');
+            // Add event listener to the "Open Chat" button
+            chatCard.querySelector('.switch-chat-button').addEventListener('click', function () {
+                const username = this.getAttribute('data-username');
+                const userId = this.getAttribute('data-id');
 
-            // Hide any currently active chat
-            document.getElementById('chat-interface').style.display = 'none';
+                // Hide any currently active chat
+                document.getElementById('chat-interface').style.display = 'none';
 
-            // Update chat interface with selected chat
-            openChat(username, userId);
+                // Update chat interface with selected chat
+                openChat(username, userId);
+            });
+
+            chatList.appendChild(chatCard);
         });
 
-        chatList.appendChild(chatCard);
-    });
-}
-
-// Function to open a specific chat
-function openChat(username, userId) {
-    // Show the chat interface
-    document.getElementById('chat-interface').style.display = 'flex';
-
-    // Update the chat header with the selected user's name
-    document.getElementById('chat-username').textContent = username;
-
-    // Optional: Load messages for the selected chat user from the server or storage
-    // You can fetch and display messages here
-}
-};
-document.getElementById('delete-chat-button').addEventListener('click', function () {
-    const chatUsername = document.getElementById('chat-username').textContent;
-
-    // Get the list of chats from localStorage
-    const chats = JSON.parse(localStorage.getItem('chats') || '[]');
-
-    // Filter out the chat with the current username (the one being deleted)
-    const updatedChats = chats.filter(chat => chat.username !== chatUsername);
-
-    // Save the updated chat list back to localStorage
-    localStorage.setItem('chats', JSON.stringify(updatedChats));
-
-    // Hide the chat interface after deleting the chat
-    document.getElementById('chat-interface').style.display = 'none';
-
-    // Show the "No chats here" message if no other chats exist
-    if (updatedChats.length === 0) {
-        document.querySelector('.message').style.display = 'block';
+        // Show the "No chats here" message if no chats exist
+        if (chats.length === 0) {
+            document.querySelector('.message').style.display = 'block';
+        } else {
+            document.querySelector('.message').style.display = 'none';
+        }
     }
 
-    // Optional: You can add a confirmation message or alert here
-    alert(`Your chat Chat with ${chatUsername} has been deleted.`);
+// Function to open a specific chat
+    function openChat(username, userId) {
+        // Show the chat interface
+        document.getElementById('chat-interface').style.display = 'flex';
 
-    // Re-render the chat list to reflect the changes
-    renderChatList();
-});
+        // Update the chat header with the selected user's name
+        document.getElementById('chat-username').textContent = username;
 
+        // Optional: Load messages for the selected chat user from the server or storage
+        // You can fetch and display messages here
+    }
+}
