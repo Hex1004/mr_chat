@@ -380,4 +380,3 @@ document.getElementById('delete-chat-button').addEventListener('click', function
     // Re-render the chat list to reflect the changes
     renderChatList();
 });
-
