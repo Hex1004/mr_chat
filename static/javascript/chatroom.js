@@ -7,97 +7,90 @@ document.getElementById('submit-search').addEventListener('click', () => {
     const resultsContainer = document.getElementById('results');
     resultsContainer.innerHTML = '';
 
-    if (username) {
-        fetch(`/home/login/chatroom/api/get-users/?username=${encodeURIComponent(username)}`)
-            .then(response => response.json())
-            .then(users => {
-                if (users.length > 0) {
-                    users.forEach(user => {
-                        const truncatedEmail = user.email.split('@')[0]; // Shorten the email
-                        const userElement = document.createElement('div');
-                        userElement.classList.add('user-result');
-                        userElement.innerHTML = `
-                            <div class="user-result-info">
-                                <p>${user.username} (${truncatedEmail}...)</p>
-                            </div>
-                            <button class="add-to-chat-button" data-username="${user.username}" data-id="${user.id}">Message</button>
-                        `;
-                        resultsContainer.appendChild(userElement);
-                    });
-
-                    document.querySelectorAll('.add-to-chat-button').forEach(button => {
-                        button.addEventListener('click', function () {
-                            const username = this.getAttribute('data-username');
-                            const userId = this.getAttribute('data-id');
-
-                            // Update chat interface
-                            document.querySelector('.message').style.display = 'none';
-                            document.getElementById('chat-interface').style.display = 'flex';
-                            document.getElementById('chat-username').textContent = username;
-
-                            document.getElementById('search-container').style.display = 'none';
-
-                            // Save chat locally
-                            const chats = JSON.parse(localStorage.getItem('chats') || '[]');
-                            if (!chats.some(chat => chat.id === userId)) {
-                                chats.push({ id: userId, username: username });
-                                localStorage.setItem('chats', JSON.stringify(chats));
-                            }
-
-                            // Enable direct message sending
-                            sendMessage(username);
-                        });
-                    });
-                } else {
-                    resultsContainer.innerHTML = '<p>No users found.</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching users:', error);
-                resultsContainer.innerHTML = '<p>There was an error retrieving user data.</p>';
-            });
-    } else {
+    if (!username) {
         resultsContainer.innerHTML = '<p>Please enter a username.</p>';
+        return;
     }
+    fetch(`/home/login/chatroom/api/get-users/?username=${encodeURIComponent(username)}`)
+        .then(response => response.json())
+        .then(users => {
+            if (users.length > 0) {
+                users.forEach(user => {
+                    const truncatedEmail = user.email.split('@')[0];
+                    const userElement = document.createElement('div');
+                    userElement.classList.add('user-result');
+                    userElement.innerHTML = `
+                        <div class="user-result-info">
+                            <p>${user.username} (${truncatedEmail}...)</p>
+                        </div>
+                        <button class="add-to-chat-button" data-username="${user.username}" data-id="${user.id}">Message</button>
+                    `;
+                    resultsContainer.appendChild(userElement);
+                });
+                document.querySelectorAll('.add-to-chat-button').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const username = this.getAttribute('data-username');
+                        const userId = this.getAttribute('data-id');
+                        // Display chat interface
+                        document.querySelector('.message').style.display = 'none';
+                        document.getElementById('chat-interface').style.display = 'flex';
+                        document.getElementById('chat-username').textContent = username;
+                        document.getElementById('search-container').style.display = 'none';
+                        // Save chat locally
+                        const chats = JSON.parse(localStorage.getItem('chats') || '[]');
+                        if (!chats.some(chat => chat.id === userId)) {
+                            chats.push({ id: userId, username });
+                            localStorage.setItem('chats', JSON.stringify(chats));
+                        }
+                        sendMessage(username);
+                    });
+                });
+            } else {
+                resultsContainer.innerHTML = '<p>No users found.</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching users:', error);
+            resultsContainer.innerHTML = '<p>Error retrieving user data.</p>';
+        });
 });
 
 // Function to send a message
 function sendMessage(username) {
     const messageInput = document.querySelector('.input-section input');
     const sendButton = document.querySelector('.input-section button');
+    const chatSocket = initializeWebSocket();
 
-    sendButton.addEventListener('click', function () {
+    sendButton.addEventListener('click', () => {
         const message = messageInput.value.trim();
-        if (message) {
-            chatSocket.send(JSON.stringify({
-                message: message,
-                username: username
-            }));
-            messageInput.value = "";
+        if (message && chatSocket.readyState === WebSocket.OPEN) {
+            chatSocket.send(JSON.stringify({ message, username }));
+            messageInput.value = '';
         }
     });
 }
 
-// WebSocket for chat
-const chatSocket = new WebSocket("ws://" + window.location.host + "/");
+function initializeWebSocket() {
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const chatSocket = new WebSocket(`${protocol}://${window.location.host}/`);
 
-chatSocket.onopen = function () {
-    console.log("WebSocket connection established!");
-};
+    chatSocket.onopen = () => console.log('WebSocket connection established');
+    chatSocket.onmessage = event => {
+        const data = JSON.parse(event.data);
+        const messageContainer = document.getElementById('messages');
+        const messageElement = document.createElement('div');
+        messageElement.textContent = data.message;
+        messageElement.style.color = 'white';
+        messageContainer.appendChild(messageElement);
 
-chatSocket.onmessage = function (e) {
-    const data = JSON.parse(e.data);
-    const messageContainer = document.getElementById("messages");
+        if (isSavingEnabled()) saveChatHistory();
+    };
 
-    const messageElement = document.createElement("div");
-    messageElement.textContent = `${data.username}: ${data.message}`;
-    messageElement.style.color = "white";
-    messageContainer.appendChild(messageElement);
-};
+    chatSocket.onclose = () => console.log('WebSocket connection closed');
+    chatSocket.onerror = error => console.error('WebSocket error:', error);
 
-chatSocket.onclose = function () {
-    console.log("WebSocket connection closed unexpectedly.");
-};
+    return chatSocket;
+}
 
 document.querySelector('.input-section button').addEventListener('click', function () {
     const messageInput = document.querySelector('.input-section input');
